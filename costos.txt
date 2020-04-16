@@ -1,0 +1,663 @@
+import wx
+import wx.xrc
+import wx.grid
+import sqlite3, datetime
+
+
+class MyFrame1 ( wx.Frame ):
+	
+	def __init__( self, parent ):
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"IMS_COSTOS Y PRESUPUESTOS", pos = wx.DefaultPosition, size = wx.Size( 1300,700 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		
+		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
+		
+		bSizer12 = wx.BoxSizer( wx.VERTICAL )
+		
+		self.m_notebook12 = wx.Notebook( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_panel8 = wx.Panel( self.m_notebook12, wx.ID_ANY, wx.DefaultPosition, wx.Size( -1,-1 ), wx.TAB_TRAVERSAL )
+		bSizer13 = wx.BoxSizer( wx.HORIZONTAL )
+		
+		self.m_grid51 = wx.grid.Grid( self.m_panel8, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
+		
+		# Grid
+		self.m_grid51.CreateGrid( 9, 1 )
+		self.m_grid51.EnableEditing( True )
+		self.m_grid51.EnableGridLines( True )
+		self.m_grid51.EnableDragGridSize( False )
+		self.m_grid51.SetMargins( 0, 0 )
+		
+		# Columns
+		self.m_grid51.AutoSizeColumns()
+		self.m_grid51.EnableDragColMove( False )
+		self.m_grid51.EnableDragColSize( True )
+		self.m_grid51.SetColLabelSize( 1 )
+		self.m_grid51.SetColLabelValue( 0, wx.EmptyString )
+		self.m_grid51.SetColLabelAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
+		
+		# Rows
+		self.m_grid51.EnableDragRowSize( True )
+		self.m_grid51.SetRowLabelSize( 150 )
+		self.m_grid51.SetRowLabelValue( 0, u"CÓDIGO:" )
+		self.m_grid51.SetRowLabelValue( 1, u"DESCRIPCIÓN:" )
+		self.m_grid51.SetRowLabelValue( 2, u"CLIENTE:" )
+		self.m_grid51.SetRowLabelValue( 3, u"CONTRATISTA:" )
+		self.m_grid51.SetRowLabelValue( 4, u"UBICACIÓN:" )
+		self.m_grid51.SetRowLabelValue( 5, u"MONEDA:" )
+		self.m_grid51.SetRowLabelValue( 6, u"FECHA DE INICIO:" )
+		self.m_grid51.SetRowLabelValue( 7, u"PLAZO:" )
+		self.m_grid51.SetRowLabelValue( 8, u"PRESUPUESTO:" )
+		self.m_grid51.SetRowLabelAlignment( wx.ALIGN_LEFT, wx.ALIGN_CENTRE )
+		
+		# Label Appearance
+		
+		# Cell Defaults
+		self.m_grid51.SetDefaultCellAlignment( wx.ALIGN_RIGHT, wx.ALIGN_TOP )
+		bSizer13.Add( self.m_grid51, 0, wx.ALL, 5 )
+		
+		
+		self.m_panel8.SetSizer( bSizer13 )
+		self.m_panel8.Layout()
+		bSizer13.Fit( self.m_panel8 )
+		self.m_notebook12.AddPage( self.m_panel8, u"Datos generales", False )
+		self.m_panel13 = wx.Panel( self.m_notebook12, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		bSizer1 = wx.BoxSizer( wx.HORIZONTAL )
+		
+		self.m_grid5 = wx.grid.Grid( self.m_panel13, wx.ID_ANY, wx.DefaultPosition, wx.Size( 1130,-1 ), 0 )
+		
+		# Grid
+		self.m_grid5.CreateGrid( 1000, 6 )
+		self.m_grid5.EnableEditing( True )
+		self.m_grid5.EnableGridLines( True )
+		self.m_grid5.SetGridLineColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHT ) )
+		self.m_grid5.EnableDragGridSize( False )
+		self.m_grid5.SetMargins( 0, 0 )
+		
+		# Columns
+		self.m_grid5.SetColSize( 0, 70 )
+		self.m_grid5.SetColSize( 1, 658 )
+		self.m_grid5.SetColSize( 2, 80 )
+		self.m_grid5.SetColSize( 3, 90 )
+		self.m_grid5.SetColSize( 4, 90 )
+		self.m_grid5.SetColSize( 5, 90 )
+		self.m_grid5.EnableDragColMove( False )
+		self.m_grid5.EnableDragColSize( False )
+		self.m_grid5.SetColLabelSize( 20 )
+		self.m_grid5.SetColLabelValue( 0, u"Item" )
+		self.m_grid5.SetColLabelValue( 1, u"Descripción" )
+		self.m_grid5.SetColLabelValue( 2, u"Unidad" )
+		self.m_grid5.SetColLabelValue( 3, u"Metrado" )
+		self.m_grid5.SetColLabelValue( 4, u"Costo" )
+		self.m_grid5.SetColLabelValue( 5, u"Parcial" )
+		self.m_grid5.SetColLabelAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
+				
+		# Rows
+		self.m_grid5.SetRowSize( 0, 10 )
+		self.m_grid5.EnableDragRowSize( False )
+		self.m_grid5.SetRowLabelSize( 35 )
+		self.m_grid5.SetRowLabelAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
+		
+		# Label Appearance
+		self.m_grid5.SetLabelBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_APPWORKSPACE ) )
+		self.m_grid5.SetLabelFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), 70, 90, 90, False, wx.EmptyString ) )
+		self.m_grid5.SetLabelTextColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_WINDOWTEXT ) )
+		
+		# Cell Defaults
+		self.m_grid5.SetDefaultCellFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), 70, 90, 90, False, wx.EmptyString ) )
+		self.m_grid5.SetDefaultCellAlignment( wx.ALIGN_LEFT, wx.ALIGN_TOP )
+		bSizer1.Add( self.m_grid5, 0, wx.ALL, 5 )
+		
+		sbSizer1 = wx.StaticBoxSizer( wx.StaticBox( self.m_panel13, wx.ID_ANY, wx.EmptyString ), wx.VERTICAL )
+		
+		self.m_button5 = wx.Button( sbSizer1.GetStaticBox(), wx.ID_ANY, u"Agregar desde BD", wx.DefaultPosition, wx.Size( 110,-1 ), 0 )
+		sbSizer1.Add( self.m_button5, 0, wx.ALL, 5 )
+		
+		self.m_button6 = wx.Button( sbSizer1.GetStaticBox(), wx.ID_ANY, u"Generar Items", wx.DefaultPosition, wx.Size( 110,-1 ), 0 )
+		sbSizer1.Add( self.m_button6, 0, wx.ALL, 5 )
+		
+		self.m_button7 = wx.Button( sbSizer1.GetStaticBox(), wx.ID_ANY, u"Ver detalle", wx.DefaultPosition, wx.Size( 110,-1 ), 0 )
+		sbSizer1.Add( self.m_button7, 0, wx.ALL, 5 )
+		
+		self.m_button16 = wx.Button( sbSizer1.GetStaticBox(), wx.ID_ANY, u"Importar Hoja", wx.DefaultPosition, wx.Size( 110,-1 ), 0 )
+		sbSizer1.Add( self.m_button16, 0, wx.ALL, 5 )
+		
+		self.m_button17 = wx.Button( sbSizer1.GetStaticBox(), wx.ID_ANY, u"Procesar", wx.DefaultPosition, wx.Size( 110,-1 ), 0 )
+		sbSizer1.Add( self.m_button17, 0, wx.ALL, 5 )
+		
+		
+		bSizer1.Add( sbSizer1, 1, wx.EXPAND, 5 )
+		
+		
+		self.m_panel13.SetSizer( bSizer1 )
+		self.m_panel13.Layout()
+		bSizer1.Fit( self.m_panel13 )
+		self.m_notebook12.AddPage( self.m_panel13, u"Presupuesto", True )
+		self.m_panel14 = wx.Panel( self.m_notebook12, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.m_notebook12.AddPage( self.m_panel14, u"Gastos Generales", False )
+		self.m_panel4 = wx.Panel( self.m_notebook12, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.m_notebook12.AddPage( self.m_panel4, u"Fórmula Polinómica", False )
+		self.m_panel5 = wx.Panel( self.m_notebook12, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.m_notebook12.AddPage( self.m_panel5, u"Precios", False )
+		self.m_panel6 = wx.Panel( self.m_notebook12, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.m_notebook12.AddPage( self.m_panel6, u"Recursos", False )
+		self.m_panel7 = wx.Panel( self.m_notebook12, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		bSizer16 = wx.BoxSizer( wx.VERTICAL )
+		
+		self.m_grid6 = wx.grid.Grid( self.m_panel7, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
+		
+		# Grid
+		self.m_grid6.CreateGrid( 9, 1 )
+		self.m_grid6.EnableEditing( True )
+		self.m_grid6.EnableGridLines( True )
+		self.m_grid6.EnableDragGridSize( False )
+		self.m_grid6.SetMargins( 0, 0 )
+		
+		# Columns
+		self.m_grid6.AutoSizeColumns()
+		self.m_grid6.EnableDragColMove( False )
+		self.m_grid6.EnableDragColSize( True )
+		self.m_grid6.SetColLabelSize( 1 )
+		self.m_grid6.SetColLabelAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
+		
+		# Rows
+		self.m_grid6.AutoSizeRows()
+		self.m_grid6.EnableDragRowSize( True )
+		self.m_grid6.SetRowLabelSize( 150 )
+		self.m_grid6.SetRowLabelValue( 0, u"COSTO DIRECTO:" )
+		self.m_grid6.SetRowLabelValue( 1, u"COSTO INDIRECTO:" )
+		self.m_grid6.SetRowLabelValue( 2, u"TOTAL:" )
+		self.m_grid6.SetRowLabelValue( 3, u"MANO DE OBRA:" )
+		self.m_grid6.SetRowLabelValue( 4, u"MATERIALES:" )
+		self.m_grid6.SetRowLabelValue( 5, u"EQUIPOS:" )
+		self.m_grid6.SetRowLabelValue( 6, u"SUBCONTRATOS:" )
+		self.m_grid6.SetRowLabelValue( 7, u"NÚMERO DE PARTIDAS:" )
+		self.m_grid6.SetRowLabelValue( 8, u"PRECIOS:" )
+
+		self.m_grid6.SetRowLabelAlignment( wx.ALIGN_LEFT, wx.ALIGN_CENTRE )
+		
+		# Label Appearance
+		
+		# Cell Defaults
+		self.m_grid6.SetDefaultCellAlignment( wx.ALIGN_LEFT, wx.ALIGN_TOP )
+		bSizer16.Add( self.m_grid6, 0, wx.ALL, 5 )
+		
+		
+		self.m_panel7.SetSizer( bSizer16 )
+		self.m_panel7.Layout()
+		bSizer16.Fit( self.m_panel7 )
+		self.m_notebook12.AddPage( self.m_panel7, u"Resumen", False )
+		
+		bSizer12.Add( self.m_notebook12, 1, wx.EXPAND |wx.ALL, 5 )
+		
+		bSizer121 = wx.BoxSizer( wx.VERTICAL )
+		
+		
+		bSizer12.Add( bSizer121, 1, wx.EXPAND, 5 )
+		
+		
+		self.SetSizer( bSizer12 )
+		self.Layout()
+		self.m_menubar2 = wx.MenuBar( 0 )
+		self.m_menu1 = wx.Menu()
+		self.m_menubar2.Append( self.m_menu1, u"Archivo" ) 
+		
+		self.m_menu2 = wx.Menu()
+		self.m_menubar2.Append( self.m_menu2, u"Herramientas" ) 
+		
+		self.m_menu3 = wx.Menu()
+		self.m_menubar2.Append( self.m_menu3, u"?" ) 
+		
+		self.SetMenuBar( self.m_menubar2 )
+		
+		self.m_toolBar1 = self.CreateToolBar( wx.TB_HORIZONTAL, wx.ID_ANY ) 
+		self.m_bpButton2 = wx.BitmapButton( self.m_toolBar1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW )
+		self.m_toolBar1.AddControl( self.m_bpButton2 )
+		self.m_bpButton6 = wx.BitmapButton( self.m_toolBar1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW )
+		self.m_toolBar1.AddControl( self.m_bpButton6 )
+		self.m_bpButton3 = wx.BitmapButton( self.m_toolBar1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW )
+		self.m_toolBar1.AddControl( self.m_bpButton3 )
+		self.m_bpButton4 = wx.BitmapButton( self.m_toolBar1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW )
+		self.m_toolBar1.AddControl( self.m_bpButton4 )
+		self.m_bpButton5 = wx.BitmapButton( self.m_toolBar1, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, wx.BU_AUTODRAW )
+		self.m_toolBar1.AddControl( self.m_bpButton5 )
+		self.m_toolBar1.Realize() 
+		
+		self.Centre( wx.BOTH )
+
+
+		bSizer16 = wx.BoxSizer( wx.VERTICAL )
+	
+		self.m_grid5.Bind( wx.grid.EVT_GRID_CELL_RIGHT_CLICK, self.OPCIONES )
+		self.m_button5.Bind( wx.EVT_BUTTON, self.ADD_PARTIDA )
+
+	
+
+	def OPCIONES(self, event):
+
+	        if not hasattr(self, "popupID1"):
+	            self.popupID1 = wx.NewId()
+	            self.popupID2 = wx.NewId()
+	            self.popupID3 = wx.NewId()
+	       	    self.popupID4 = wx.NewId()
+	       	    self.popupID5 = wx.NewId()
+	       	    self.popupID6 = wx.NewId()
+
+	        menu = wx.Menu()
+	        menu.Append(self.popupID1,"Título")
+	        menu.Append(self.popupID2,"Partida")
+	        menu.Append(self.popupID3,"Copiar")
+	        menu.Append(self.popupID4,"Pegar")
+	        menu.Append(self.popupID5,"Eliminar")
+	        menu.Append(self.popupID6,"kjnvnkjbf")
+	        
+	        self.PopupMenu(menu)
+	        menu.Destroy()
+	        x= event.GetRow()
+	        self.m_grid5.SetCellTextColour(x,1,"red")
+
+
+	def ADD_PARTIDA(self, event):
+		child_frame = MyFrame9(self)
+		child_frame.make_modal(True)
+		child_frame.Show()
+
+	def make_modal(self, modal=True):
+		if modal and not hasattr(self, '_disabler'):
+			self._disabler = wx.WindowDisabler(self)
+		elif not modal and hasattr(self, '_disabler'):
+			del self._disabler
+
+class MyFrame2 ( wx.Frame ):
+	
+	def __init__( self, parent ):
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"PARTIDAS", pos = wx.DefaultPosition, size = wx.Size( 890,476 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		
+		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
+		
+		bSizer2 = wx.BoxSizer( wx.VERTICAL )
+		
+		bSizer5 = wx.BoxSizer( wx.VERTICAL )
+		
+		bSizer8 = wx.BoxSizer( wx.HORIZONTAL )
+		
+		self.m_textCtrl1 = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 600,-1 ), 0 )
+		self.m_textCtrl1.Enable( True )
+		
+		bSizer8.Add( self.m_textCtrl1, 0, wx.ALL, 5 )
+		
+		self.m_button16 = wx.Button( self, wx.ID_ANY, u"Buscar", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer8.Add( self.m_button16, 0, wx.ALL, 5 )
+		
+		self.m_button18 = wx.Button( self, wx.ID_ANY, u"Modificar", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer8.Add( self.m_button18, 0, wx.ALL, 5 )
+		
+		self.m_button17 = wx.Button( self, wx.ID_ANY, u"Agregar Partida", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer8.Add( self.m_button17, 0, wx.ALL, 5 )
+		
+		
+		bSizer5.Add( bSizer8, 1, wx.EXPAND, 5 )
+		
+		bSizer6 = wx.BoxSizer( wx.HORIZONTAL )
+		
+		self.m_staticText7 = wx.StaticText( self, wx.ID_ANY, u"Rendimiento:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText7.Wrap( -1 )
+		bSizer6.Add( self.m_staticText7, 0, wx.ALL, 5 )
+		
+		self.m_textCtrl21 = wx.TextCtrl( self, wx.ID_ANY, u"Rendimiento", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer6.Add( self.m_textCtrl21, 0, wx.ALL, 5 )
+		
+		self.m_staticText6 = wx.StaticText( self, wx.ID_ANY, u"Jornada:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText6.Wrap( -1 )
+		bSizer6.Add( self.m_staticText6, 0, wx.ALL, 5 )
+		
+		self.m_textCtrl22 = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer6.Add( self.m_textCtrl22, 0, wx.ALL, 5 )
+		
+		self.m_staticText8 = wx.StaticText( self, wx.ID_ANY, u"Precio Unitario:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText8.Wrap( -1 )
+		bSizer6.Add( self.m_staticText8, 0, wx.ALL, 5 )
+		
+		self.m_textCtrl13 = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_textCtrl13.Enable( False )
+		
+		bSizer6.Add( self.m_textCtrl13, 0, wx.ALL, 5 )
+		
+		
+		bSizer5.Add( bSizer6, 1, wx.EXPAND, 5 )
+		
+		
+		bSizer2.Add( bSizer5, 1, wx.EXPAND, 5 )
+		
+		bSizer3 = wx.BoxSizer( wx.HORIZONTAL )
+		
+		self.m_grid6 = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 750,-1 ), 0 )
+		
+		# Grid
+		self.m_grid6.CreateGrid( 30, 7 )
+		self.m_grid6.EnableEditing( True )
+		self.m_grid6.EnableGridLines( True )
+		self.m_grid6.EnableDragGridSize( False )
+		self.m_grid6.SetMargins( 0, 0 )
+		
+		# Columns
+		self.m_grid6.SetColSize( 0, 32 )
+		self.m_grid6.SetColSize( 1, 376 )
+		self.m_grid6.SetColSize( 2, 65 )
+		self.m_grid6.SetColSize( 3, 65 )
+		self.m_grid6.SetColSize( 4, 65 )
+		self.m_grid6.SetColSize( 5, 65 )
+		self.m_grid6.SetColSize( 6, 65 )
+		self.m_grid6.EnableDragColMove( False )
+		self.m_grid6.EnableDragColSize( True )
+		self.m_grid6.SetColLabelSize( 25 )
+		self.m_grid6.SetColLabelValue( 0, u"Tipo" )
+		self.m_grid6.SetColLabelValue( 1, u"Descripción" )
+		self.m_grid6.SetColLabelValue( 2, u"Unidad" )
+		self.m_grid6.SetColLabelValue( 3, u"Cuadrilla" )
+		self.m_grid6.SetColLabelValue( 4, u"Cantidad" )
+		self.m_grid6.SetColLabelValue( 5, u"Precio" )
+		self.m_grid6.SetColLabelValue( 6, u"Parcial" )
+		self.m_grid6.SetColLabelValue( 7, wx.EmptyString )
+		self.m_grid6.SetColLabelAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
+		
+		# Rows
+		self.m_grid6.EnableDragRowSize( True )
+		self.m_grid6.SetRowLabelSize( 0 )
+		self.m_grid6.SetRowLabelAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
+		
+		# Label Appearance
+		
+		# Cell Defaults
+		self.m_grid6.SetDefaultCellAlignment( wx.ALIGN_LEFT, wx.ALIGN_TOP )
+		bSizer3.Add( self.m_grid6, 0, wx.ALL, 5 )
+		
+		bSizer4 = wx.BoxSizer( wx.VERTICAL )
+		
+		self.m_button12 = wx.Button( self, wx.ID_ANY, u"Agregar recurso", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer4.Add( self.m_button12, 0, wx.ALL, 5 )
+		
+		self.m_button13 = wx.Button( self, wx.ID_ANY, u"Crear recurso", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer4.Add( self.m_button13, 0, wx.ALL, 5 )
+		
+		self.m_button14 = wx.Button( self, wx.ID_ANY, u"MyButton", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer4.Add( self.m_button14, 0, wx.ALL, 5 )
+		
+		self.m_staticText1 = wx.StaticText( self, wx.ID_ANY, u"Mano de obra (MO):", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText1.Wrap( -1 )
+		bSizer4.Add( self.m_staticText1, 0, wx.ALL, 5 )
+		
+		self.m_textCtrl9 = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_textCtrl9.Enable( False )
+		
+		bSizer4.Add( self.m_textCtrl9, 0, wx.ALL, 5 )
+		
+		self.m_staticText2 = wx.StaticText( self, wx.ID_ANY, u"Materiales (MAT):", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText2.Wrap( -1 )
+		bSizer4.Add( self.m_staticText2, 0, wx.ALL, 5 )
+		
+		self.m_textCtrl10 = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_textCtrl10.Enable( False )
+		
+		bSizer4.Add( self.m_textCtrl10, 0, wx.ALL, 5 )
+		
+		self.m_staticText3 = wx.StaticText( self, wx.ID_ANY, u"Subcontratos (SC):", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText3.Wrap( -1 )
+		bSizer4.Add( self.m_staticText3, 0, wx.ALL, 5 )
+		
+		self.m_textCtrl11 = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_textCtrl11.Enable( False )
+		
+		bSizer4.Add( self.m_textCtrl11, 0, wx.ALL, 5 )
+		
+		self.m_staticText4 = wx.StaticText( self, wx.ID_ANY, u"Sub partidas (SP):", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText4.Wrap( -1 )
+		bSizer4.Add( self.m_staticText4, 0, wx.ALL, 5 )
+		
+		self.m_textCtrl12 = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_textCtrl12.Enable( False )
+		
+		bSizer4.Add( self.m_textCtrl12, 0, wx.ALL, 5 )
+				
+		bSizer3.Add( bSizer4, 1, wx.EXPAND, 5 )
+				
+		bSizer2.Add( bSizer3, 1, wx.EXPAND, 5 )
+		
+		
+		self.SetSizer( bSizer2 )
+		self.Layout()
+		
+		self.Centre( wx.BOTH )
+
+
+		# Connect Events
+		self.m_textCtrl1.Bind( wx.EVT_TEXT, self.buscar_par )
+		self.m_button12.Bind( wx.EVT_BUTTON, self.mostrar )
+
+	
+	# Virtual event handlers, overide them in your derived class
+	def buscar_par(self,event):
+		m=self.m_textCtrl1.GetValue()
+		conexion=sqlite3.connect("RECURSOS.db")
+		cursor=conexion.cursor()
+		curso=cursor.execute("SELECT * FROM MAIN_PARTIDAS")
+		items=curso.fetchall()
+		
+		i=0
+		for item in items:
+			if m in item[1]:
+				self.m_grid6.SetCellValue(i,0,item[0])
+				self.m_grid6.SetCellValue(i,1,item[1])
+	
+				i=i+1
+
+
+	def mostrar( self, event ):
+		child_frame = MyFrame3(self)
+		child_frame.make_modal(True)
+		child_frame.Show()
+
+	def make_modal(self, modal=True):
+		if modal and not hasattr(self, '_disabler'):
+			self._disabler = wx.WindowDisabler(self)
+		elif not modal and hasattr(self, '_disabler'):
+			del self._disabler
+		
+		# Connect Events
+class MyFrame3 ( wx.Frame ):
+	
+	def __init__( self, parent ):
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 720,387 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		
+		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
+		
+		bSizer9 = wx.BoxSizer( wx.VERTICAL )
+		
+		self.m_textCtrl14 = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 600,-1 ), 0 )
+		bSizer9.Add( self.m_textCtrl14, 0, wx.ALL, 5 )
+		
+		self.m_button19 = wx.Button( self, wx.ID_ANY, u"Adicionar Recurso", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer9.Add( self.m_button19, 0, wx.ALL, 5 )
+		
+		self.m_grid7 = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 700,-1 ), 0 )
+		
+		# Grid
+		self.m_grid7.CreateGrid( 10000, 3 )
+		self.m_grid7.EnableEditing( True )
+		self.m_grid7.EnableGridLines( True )
+		self.m_grid7.EnableDragGridSize( False )
+		self.m_grid7.SetMargins( 0, 0 )
+		
+		# Columns
+		self.m_grid7.SetColSize( 0, 59 )
+		self.m_grid7.SetColSize( 1, 429 )
+		self.m_grid7.SetColSize( 2, 114 )
+		self.m_grid7.EnableDragColMove( False )
+		self.m_grid7.EnableDragColSize( True )
+		self.m_grid7.SetColLabelSize( 30 )
+		self.m_grid7.SetColLabelValue( 0, u"Código" )
+		self.m_grid7.SetColLabelValue( 1, u"Recurso" )
+		self.m_grid7.SetColLabelValue( 2, u"Unidad" )
+		self.m_grid7.SetColLabelAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
+		
+		# Rows
+		self.m_grid7.EnableDragRowSize( True )
+		self.m_grid7.SetRowLabelSize( 80 )
+		self.m_grid7.SetRowLabelAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
+		
+		# Label Appearance
+		
+		# Cell Defaults
+		self.m_grid7.SetDefaultCellAlignment( wx.ALIGN_LEFT, wx.ALIGN_TOP )
+		bSizer9.Add( self.m_grid7, 0, wx.ALL, 5 )
+		
+		
+		self.SetSizer( bSizer9 )
+		self.Layout()
+		
+		self.Centre( wx.BOTH )
+
+		conexion=sqlite3.connect("RECURSOS.db")
+		cursor=conexion.cursor()
+		curso=cursor.execute("SELECT * FROM recursos")
+		items=curso.fetchall()
+		i=0
+		for item in items:
+			
+			self.m_grid7.SetCellValue(i,0,item[0])
+			self.m_grid7.SetCellValue(i,1,item[1])
+			self.m_grid7.SetCellValue(i,2,item[2])
+			
+			i=1+i
+
+
+
+	def make_modal(self, modal=True):
+		if modal and not hasattr(self, '_disabler'):
+			self._disabler = wx.WindowDisabler(self)
+		elif not modal and hasattr(self, '_disabler'):
+			del self._disabler
+
+
+class MyFrame9 ( wx.Frame ):
+	
+	def __init__( self, parent ):
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"CATALOGO DE PARTIDAS", pos = wx.DefaultPosition, size = wx.Size( 1000,459 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		
+		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
+		
+		bSizer17 = wx.BoxSizer( wx.VERTICAL )
+		
+		self.m_textCtrl13 = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 700,-1 ), 0 )
+		bSizer17.Add( self.m_textCtrl13, 0, wx.ALL, 5 )
+		
+		bSizer18 = wx.BoxSizer( wx.HORIZONTAL )
+		
+		self.m_grid9 = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.Size( 900,-1 ), 0 )
+		
+		# Grid
+		self.m_grid9.CreateGrid( 1000, 3 )
+		self.m_grid9.EnableEditing( True )
+		self.m_grid9.EnableGridLines( True )
+		self.m_grid9.EnableDragGridSize( False )
+		self.m_grid9.SetMargins( 0, 0 )
+		
+		# Columns
+		self.m_grid9.SetColSize( 0, 100 )
+		self.m_grid9.SetColSize( 1, 665 )
+		self.m_grid9.SetColSize( 2, 83 )
+		self.m_grid9.EnableDragColMove( False )
+		self.m_grid9.EnableDragColSize( False )
+		self.m_grid9.SetColLabelSize( 30 )
+		self.m_grid9.SetColLabelValue( 0, u"CODIGO" )
+		self.m_grid9.SetColLabelValue( 1, u"DESCRIPCION" )
+		self.m_grid9.SetColLabelValue( 2, u"UNIDAD" )
+		self.m_grid9.SetColLabelAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
+		
+		# Rows
+		self.m_grid9.EnableDragRowSize( True )
+		self.m_grid9.SetRowLabelSize( 35 )
+		self.m_grid9.SetRowLabelAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
+		
+		# Label Appearance
+		
+		# Cell Defaults
+		self.m_grid9.SetDefaultCellAlignment( wx.ALIGN_LEFT, wx.ALIGN_TOP )
+		bSizer18.Add( self.m_grid9, 0, wx.ALL, 5 )
+		
+		bSizer19 = wx.BoxSizer( wx.VERTICAL )
+		
+		self.m_button15 = wx.Button( self, wx.ID_ANY, u"Agregar", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer19.Add( self.m_button15, 0, wx.ALL, 5 )
+		
+		self.m_button16 = wx.Button( self, wx.ID_ANY, u"Ver detalle", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer19.Add( self.m_button16, 0, wx.ALL, 5 )
+		
+		self.m_button17 = wx.Button( self, wx.ID_ANY, u"Crear", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer19.Add( self.m_button17, 0, wx.ALL, 5 )
+		
+		
+		bSizer18.Add( bSizer19, 1, wx.EXPAND, 5 )
+		
+		
+		bSizer17.Add( bSizer18, 1, wx.EXPAND, 5 )
+		
+		
+		self.SetSizer( bSizer17 )
+		self.Layout()
+		
+		self.Centre( wx.BOTH )
+
+	# EVENTOS
+#		self.m_grid9.Bind( wx.grid.EVT_GRID_CELL_LEFT_CLICK, self.seleccion )
+		self.m_textCtrl13.Bind( wx.EVT_TEXT, self.buscar_par )
+		self.m_button15.Bind( wx.EVT_BUTTON, self.agregar_par )
+		self.m_button16.Bind( wx.EVT_BUTTON, self.mostrar_apu )
+	# Virtual event handlers, overide them in your derived class
+
+#	def seleccion(self,event):
+#		x= event.GetRow()
+#		cod_partida=self.m_grid9.GetCellValue(x,0)
+#		print(x)
+
+	def agregar_par():
+		self.Close(True)
+
+
+	def mostrar_apu(self,event):
+
+		child_frame = MyFrame2(self)
+		child_frame.make_modal(True)
+		child_frame.Show()
+
+	def buscar_par(self,event):
+		m=self.m_textCtrl13.GetValue()
+		conexion=sqlite3.connect("RECURSOS.db")
+		cursor=conexion.cursor()
+		curso=cursor.execute("SELECT * FROM MAIN_PARTIDAS")
+		items=curso.fetchall()
+		
+		i=0
+		for item in items:
+			if m in item[1]:
+				self.m_grid9.SetCellValue(i,0,item[0])
+				self.m_grid9.SetCellValue(i,1,item[1])
+				self.m_grid9.SetCellValue(i,2,item[2])
+				i=i+1
+
+	def make_modal(self, modal=True):
+		if modal and not hasattr(self, '_disabler'):
+			self._disabler = wx.WindowDisabler(self)
+		elif not modal and hasattr(self, '_disabler'):
+			del self._disabler
+
+
+class MyApp(wx.App):
+    def OnInit(self):
+        self.frame1 = MyFrame1(None)
+        self.SetTopWindow(self.frame1)
+        self.frame1.Show()
+        return True
+	
+if __name__ == "__main__":
+    app = MyApp(0)
+    app.MainLoop()	
+
